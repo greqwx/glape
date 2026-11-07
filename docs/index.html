@@ -7,6 +7,7 @@
 <title>Glape</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/png" sizes="15x15" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -45,7 +46,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1.2rem 1rem
 </header>
 <nav id="menu"></nav>
 <main id="content">Loading...</main>
-<footer>© Glape Contributors</footer>
+<footer>(c) Glape Contributors</footer>
 <script>
 (function () {
   var REPO = "greqwx/glape";
@@ -217,7 +218,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1.2rem 1rem
       var title = nav.filter(function (p) { return p.id === page; })[0].title;
 
       renderMenu(nav, ref, page);
-      document.title = title + " | Glape " + ref;
+      document.title = "Glape " + title + " (" + ref + ")";
 
       return fetchText(RAW + encodeRef(ref) + "/docs/pages/" + encodeURIComponent(page) + ".md").then(function (text) {
         content.innerHTML = markdown(text, ref);
