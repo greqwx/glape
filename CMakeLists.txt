@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(glape LANGUAGES C)
 
-set(GLAPE_VERSION "1.0" CACHE STRING "Version shown by glape version")
+set(GLAPE_VERSION "0.1" CACHE STRING "Version shown by glape version")
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)

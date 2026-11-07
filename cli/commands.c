@@ -18,7 +18,7 @@
 #include "runtime/interp.h"
 
 #ifndef GLAPE_VERSION
-#define GLAPE_VERSION "1.0"
+#define GLAPE_VERSION "0.1"
 #endif
 
 static const char *platform_os(void)
