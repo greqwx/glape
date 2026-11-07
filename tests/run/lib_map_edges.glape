@@ -1,0 +1,38 @@
+// (c) Glape Contributors
+
+load map
+
+define main():
+  m = {}
+  map.set(m, "a", 1)
+  map.set(m, "b", 2)
+  print(m)
+  map.set(m, "a", 3)
+  print(m)
+  print(map.get(m, "a"))
+  print(map.get(m, "missing", 99))
+  map.get(m, "missing") catch err:
+    print("caught: $err")
+  print(map.has(m, "a"))
+  print(map.has(m, "z"))
+  print(map.keys(m))
+  print(map.values(m))
+  other = {b: 20, c: 30}
+  map.update(m, other)
+  print(m)
+  print(map.remove(m, "b"))
+  print(m)
+  map.remove(m, "zzz") catch err:
+    print("caught: $err")
+  map.clear(m)
+  print(m)
+  print(len(m))
+  literal = {1: "one", true: "yes", "x": 1, x: 2}
+  print(literal)
+  print(literal["1"])
+  print(literal["true"])
+  print(map.keys(literal))
+  map.keys(1) catch err:
+    print("caught: $err")
+  map.set(m, 1, 2) catch err:
+    print("caught: $err")

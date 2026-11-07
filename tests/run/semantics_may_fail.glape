@@ -1,0 +1,17 @@
+// (c) Glape Contributors
+
+define risky()!:
+  fail("nope")
+
+define safe()!:
+  return 1
+
+define plain():
+  return 2
+
+define main():
+  print(safe())
+  print(plain())
+  risky() catch err:
+    print("caught: $err")
+  print("after")

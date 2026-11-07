@@ -1,0 +1,10 @@
+// (c) Glape Contributors
+
+define inner():
+  return 1 / 0
+
+define middle():
+  return inner()
+
+define main():
+  print(middle())

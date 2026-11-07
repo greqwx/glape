@@ -1,0 +1,14 @@
+// (c) Glape Contributors
+
+define make_counter():
+  n = 0
+  define inc():
+    n = n + 1
+    return n
+  return inc
+
+define main():
+  counter = make_counter()
+  print(counter())
+  print(counter())
+  print(counter())

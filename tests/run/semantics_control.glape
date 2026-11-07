@@ -1,0 +1,56 @@
+// (c) Glape Contributors
+
+define inner_fail():
+  fail("boom")
+
+define returns():
+  inner_fail() catch err:
+    return "caught:$err"
+  return "unreachable"
+
+define loop_catch():
+  out = ""
+  loop x in [1, 2, 3]:
+    inner_fail() catch err:
+      out = out + "$x"
+      break
+  return out
+
+define breaks():
+  loop x in [1, 2, 3]:
+    if x == 2:
+      break
+  return "done"
+
+define skips():
+  total = 0
+  loop x in [1, 2, 3]:
+    if x == 2:
+      continue
+    total = total + x
+  return total
+
+define skips2():
+  total = 0
+  loop x in [1, 2, 3]:
+    if x == 2:
+      skip
+    total = total + x
+  return total
+
+define fail_number():
+  fail(42)
+
+define main():
+  print(returns())
+  print(loop_catch())
+  print(breaks())
+  print(skips())
+  print(skips2())
+  fail_number() catch err:
+    print(type(err))
+    print(err)
+  fail() catch err:
+    print("caught: $err")
+  fail([1, "x"]) catch err:
+    print("caught: $err")

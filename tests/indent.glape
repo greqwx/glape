@@ -1,0 +1,8 @@
+// (c) Glape Contributors
+
+if true:
+    loop x in [1, 2]:
+        print(x)
+    print("done")
+
+print("end")

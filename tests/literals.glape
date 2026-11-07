@@ -1,0 +1,12 @@
+// (c) Glape Contributors
+
+// numbers and strings
+a = 1_000_000
+b = 0xFF
+c = 3.14
+d = 1.5e3
+
+s = "line\n$name ${path.base(f)}"
+t = "quote \" and brace } here"
+w = a != b
+v = [1, 2] + (3 * 4) >= 5 and not false

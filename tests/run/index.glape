@@ -1,0 +1,29 @@
+// (c) Glape Contributors
+
+define get(items, i):
+  return items[i]
+
+define char_at(text, i):
+  return text[i]
+
+define main():
+  items = [10, 20, 30]
+  print(items[0])
+  print(items[2])
+  items[1] = 25
+  print(items)
+  print("abc"[1])
+  get(items, 5) catch err:
+    print("caught: $err")
+  get(items, -1) catch err:
+    print("caught: $err")
+  get(items, "x") catch err:
+    print("caught: $err")
+  char_at("abc", 5) catch err:
+    print("caught: $err")
+  user = {name: "Ada"}
+  print(user["name"])
+  user["age"] = 36
+  print(user)
+  get(user, "missing") catch err:
+    print("caught: $err")

@@ -1,0 +1,12 @@
+// (c) Glape Contributors
+
+define risky(n)!:
+  if n > 2:
+    fail("too big: $n")
+  return n * 2
+
+define main():
+  print(risky(2))
+  risky(5) catch err:
+    print("caught: $err")
+  print("done")

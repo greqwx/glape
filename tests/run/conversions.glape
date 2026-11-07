@@ -1,0 +1,31 @@
+// (c) Glape Contributors
+
+define main():
+  print(to_int(3.9))
+  print(to_int(-3.9))
+  print(to_int(true))
+  print(to_int(false))
+  print(to_int(" 42 "))
+  print(to_int("+7"))
+  print(to_float(2))
+  print(to_float(" 2.5 "))
+  print(to_float("1e3"))
+  print(to_str(nil))
+  print(to_str(true))
+  print(to_str(12))
+  print(to_str(1.5))
+  print(to_str([1, 2]))
+  print(to_str({a: 1}))
+  print(type(to_str(1)))
+  to_int("nope") catch err:
+    print("caught: $err")
+  to_int("12x") catch err:
+    print("caught: $err")
+  to_int(nil) catch err:
+    print("caught: $err")
+  to_int([]) catch err:
+    print("caught: $err")
+  to_float("") catch err:
+    print("caught: $err")
+  to_float([]) catch err:
+    print("caught: $err")

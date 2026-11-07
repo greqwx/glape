@@ -1,0 +1,21 @@
+{a: 1, b: 2}
+{a: 3, b: 2}
+3
+99
+caught: map has no key 'missing'
+true
+false
+[a, b]
+[3, 2]
+{a: 3, b: 20, c: 30}
+20
+{a: 3, c: 30}
+caught: map has no key 'zzz'
+{}
+0
+{1: one, true: yes, x: 2}
+one
+yes
+[1, true, x]
+caught: map.keys expects map for 'map', got int
+caught: map.set expects string for 'key', got int

@@ -1,0 +1,41 @@
+// (c) Glape Contributors
+
+load list
+
+define main():
+  xs = []
+  print(list.push(xs, 1))
+  print(xs)
+  print(list.pop(xs))
+  print(xs)
+  list.pop(xs) catch err:
+    print("caught: $err")
+  list.insert(xs, 0, 5)
+  print(xs)
+  list.insert(xs, 1, 6)
+  print(xs)
+  list.insert(xs, 2, 7)
+  print(xs)
+  list.insert(xs, 4, 8) catch err:
+    print("caught: $err")
+  print(list.remove(xs, 1))
+  print(xs)
+  list.remove(xs, 99) catch err:
+    print("caught: $err")
+  print(list.contains(xs, 5))
+  print(list.contains(xs, 5.0))
+  print(list.index_of(xs, 99))
+  list.extend(xs, xs)
+  print(xs)
+  sub = list.slice(xs, 0, 2)
+  print(sub)
+  sub[0] = 100
+  print(xs)
+  print(sub)
+  list.clear(xs)
+  print(xs)
+  print(len(xs))
+  list.push(1, 2) catch err:
+    print("caught: $err")
+  list.insert(xs, "x", 1) catch err:
+    print("caught: $err")

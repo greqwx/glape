@@ -1,0 +1,6 @@
+// (c) Glape Contributors
+
+define main():
+  print("x")
+
+return 1

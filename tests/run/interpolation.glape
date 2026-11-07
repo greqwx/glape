@@ -1,0 +1,19 @@
+// (c) Glape Contributors
+
+define main():
+  x = 5
+  name = "Ada"
+  name2 = "Bob"
+  items = [1, 2, 3]
+  user = {name: "Bob", age: 40}
+  print("x=$x")
+  print("name=$name/$name2")
+  print("items=$items")
+  print("item=${items[1]}")
+  print("user=${user.name}")
+  print("sum=${x + 10}")
+  print("nested=${(x + 1) * 2}")
+  print("bool=${x > 3 and x < 10}")
+  print("escaped=\$x")
+  print("braces={$x}")
+  print("map=${({a: 1}).a}")

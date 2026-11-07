@@ -1,0 +1,6 @@
+4
+2
+fox|brown|quick|the
+{fox: 1, brown: 1, quick: 1, the: 1}
+4
+[FOX, BROWN, QUICK, THE]

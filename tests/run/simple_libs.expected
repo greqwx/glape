@@ -1,0 +1,39 @@
+HELLO
+world
+pad
+[a, b, c]
+x-y-z
+2
+x-b-x
+ababab
+cde
+bcd
+[1, 2, 3, 4]
+4
+[1, 9, 2, 3]
+1
+[9, 2, 3]
+true
+0
+[3, 2, 9]
+[3, 2]
+{name: Ada, age: 36}
+[name, age]
+[Ada, 36]
+true
+36
+fallback
+36
+{name: Ada}
+7
+3
+1024
+3
+2.5
+10
+3
+3.14159
+3
+42
+caught: str.upper expects string for 'text', got int
+caught: map has no key 'missing'

@@ -1,0 +1,11 @@
+10
+30
+[10, 25, 30]
+b
+caught: index 5 out of bounds for list of length 3
+caught: index -1 out of bounds for list of length 3
+caught: list index must be int, got string
+caught: index 5 out of bounds for string of length 3
+Ada
+{name: Ada, age: 36}
+caught: map has no key 'missing'

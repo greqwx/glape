@@ -1,0 +1,53 @@
+// (c) Glape Contributors
+
+load str, list, map, math
+load str, list, map, math
+
+define main():
+  print(str.upper("hello"))
+  print(str.lower("WORLD"))
+  print(str.trim("  pad  "))
+  print(str.split("a,b,c", ","))
+  print(str.join(["x", "y", "z"], "-"))
+  print(str.find("hello", "ll"))
+  print(str.replace("a-b-a", "a", "x"))
+  print(str.repeat("ab", 3))
+  print(str.substr("abcdef", 2, 3))
+  print(str.slice("abcdef", 1, 4))
+  items = [1, 2, 3]
+  list.push(items, 4)
+  print(items)
+  print(list.pop(items))
+  list.insert(items, 1, 9)
+  print(items)
+  print(list.remove(items, 0))
+  print(items)
+  print(list.contains(items, 9))
+  print(list.index_of(items, 9))
+  list.reverse(items)
+  print(items)
+  print(list.slice(items, 0, 2))
+  user = {name: "Ada"}
+  map.set(user, "age", 36)
+  print(user)
+  print(map.keys(user))
+  print(map.values(user))
+  print(map.has(user, "age"))
+  print(map.get(user, "age"))
+  print(map.get(user, "nope", "fallback"))
+  print(map.remove(user, "age"))
+  print(user)
+  print(math.abs(-7))
+  print(math.sqrt(9))
+  print(math.pow(2, 10))
+  print(math.min(3, 5))
+  print(math.max(2.5, 1.5))
+  print(math.clamp(12, 0, 10))
+  print(math.round(2.6))
+  print(math.pi)
+  print(len(items))
+  print(to_str(42))
+  str.upper(1) catch err:
+    print("caught: $err")
+  map.get(user, "missing") catch err:
+    print("caught: $err")

@@ -1,0 +1,9 @@
+caught:boom
+1
+done
+4
+4
+string
+42
+caught: fail expects 1 argument(s), got 0
+caught: [1, x]

@@ -1,0 +1,4 @@
+<file>:4:12: division by zero
+  at inner (<file>:4:12)
+  at middle (<file>:7:10)
+  at main (<file>:10:9)

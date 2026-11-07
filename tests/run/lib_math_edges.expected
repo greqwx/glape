@@ -1,0 +1,25 @@
+5
+2.5
+0
+0
+1.41421
+2
+3
+3
+-3
+2
+2
+2.5
+0
+5.5
+8
+true
+0
+1
+0.785398
+true
+caught: math.sqrt domain error
+caught: math.log domain error
+caught: math.asin domain error
+caught: math.clamp lower bound is greater than upper bound
+caught: math.pow expects number for 'base', got string

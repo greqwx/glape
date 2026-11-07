@@ -1,0 +1,9 @@
+// (c) Glape Contributors
+
+define main():
+  name = "world"
+  n = 3
+  print("hello, $name")
+  print("value: ${n * 2}")
+  print("slash: \\")
+  print("quote: \"")

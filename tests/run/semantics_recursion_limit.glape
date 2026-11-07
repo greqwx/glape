@@ -1,0 +1,9 @@
+// (c) Glape Contributors
+
+define dive(n):
+  return dive(n + 1)
+
+define main():
+  dive(0) catch err:
+    print(err)
+  print("after")

@@ -1,0 +1,7 @@
+// (c) Glape Contributors
+
+define add(a, b):
+  return a + b
+
+define main():
+  print(add(1))

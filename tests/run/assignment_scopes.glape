@@ -1,0 +1,29 @@
+// (c) Glape Contributors
+
+define bump(n):
+  value = n
+  if true:
+    value = value + 1
+  loop i in [1, 2]:
+    value = value + i
+  return value
+
+define make():
+  x = 1
+  define get():
+    return x
+  return get
+
+define main():
+  print(bump(10))
+  x = 1
+  x = x + 1
+  print(x)
+  inner = make()
+  print(inner())
+  items = [0]
+  items[0] = 7
+  print(items)
+  m = {}
+  m.field = 9
+  print(m)

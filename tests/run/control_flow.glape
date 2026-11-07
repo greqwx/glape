@@ -1,0 +1,34 @@
+// (c) Glape Contributors
+
+define classify(n):
+  if n < 0:
+    return "negative"
+  else:
+    if n == 0:
+      return "zero"
+    else:
+      return "positive"
+
+define main():
+  print(classify(-2))
+  print(classify(0))
+  print(classify(5))
+  value = 0
+  if true:
+    value = 1
+  print(value)
+  if false:
+    value = 2
+  else:
+    value = 3
+  print(value)
+  if 0:
+    print("bad")
+  if "":
+    print("bad")
+  else:
+    print("empty string is false")
+  if []:
+    print("bad")
+  else:
+    print("empty list is false")

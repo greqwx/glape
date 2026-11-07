@@ -1,0 +1,22 @@
+// (c) Glape Contributors
+
+load str, list, map, math
+
+define main():
+  words = str.split("the quick brown fox", " ")
+  print(len(words))
+  print(list.index_of(words, "brown"))
+  list.reverse(words)
+  print(str.join(words, "|"))
+  counts = {}
+  loop w in words:
+    if map.has(counts, w):
+      map.set(counts, w, map.get(counts, w) + 1)
+    else:
+      map.set(counts, w, 1)
+  print(counts)
+  print(math.max(len(words), 3))
+  upper = []
+  loop w in words:
+    list.push(upper, str.upper(w))
+  print(upper)

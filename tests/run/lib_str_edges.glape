@@ -1,0 +1,40 @@
+// (c) Glape Contributors
+
+load str
+
+define main():
+  print(str.upper("aZ1_"))
+  print(str.lower("Az1_"))
+  print("[" + str.trim(" \t\nabc \r\n") + "]")
+  print(len(str.trim_start("  x  ")))
+  print(len(str.trim_end("  x  ")))
+  print(str.find("abcabc", "bc"))
+  print(str.find("abc", "z"))
+  print(str.find("abc", ""))
+  print(str.contains("abc", ""))
+  print(str.starts_with("abc", ""))
+  print(str.ends_with("abc", ""))
+  print(str.starts_with("abc", "ab"))
+  print(str.ends_with("abc", "bc"))
+  print(str.split("a,,b,", ","))
+  print(len(str.split("abc", "abc")))
+  print("[" + str.join([], "-") + "]")
+  print(str.join(["a"], "-"))
+  print(str.replace("aaaa", "aa", "b"))
+  print("[" + str.repeat("x", 0) + "]")
+  print("[" + str.substr("abcdef", 6, 0) + "]")
+  print(str.slice("abcdef", 0, 6))
+  str.split("x", "") catch err:
+    print("caught: $err")
+  str.replace("x", "", "y") catch err:
+    print("caught: $err")
+  str.repeat("x", -1) catch err:
+    print("caught: $err")
+  str.substr("abcdef", 5, 2) catch err:
+    print("caught: $err")
+  str.slice("abcdef", 4, 2) catch err:
+    print("caught: $err")
+  str.join([1], ",") catch err:
+    print("caught: $err")
+  str.upper(1) catch err:
+    print("caught: $err")

@@ -1,0 +1,34 @@
+// (c) Glape Contributors
+
+define fact(n):
+  if n <= 1:
+    return 1
+  return n * fact(n - 1)
+
+define fib(n):
+  if n < 2:
+    return n
+  return fib(n - 1) + fib(n - 2)
+
+define no_return():
+  x = 1
+
+define add(a, b):
+  return a + b
+
+define apply(f, x):
+  return f(x)
+
+define dbl(x):
+  return x * 2
+
+define risky(n)!:
+  return n * 2
+
+define main():
+  print(fact(5))
+  print(fib(10))
+  print(no_return())
+  print(add(2, 3))
+  print(apply(dbl, 7))
+  print(risky(4))

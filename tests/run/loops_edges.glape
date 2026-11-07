@@ -1,0 +1,37 @@
+// (c) Glape Contributors
+
+define main():
+  total = 0
+  loop n in [1, 2, 3, 4, 5]:
+    if n == 2:
+      skip
+    if n == 5:
+      break
+    total = total + n
+  print(total)
+  seen = ""
+  loop ch in "abc":
+    seen = seen + ch
+  print(seen)
+  keys = ""
+  loop key in {a: 1, b: 2}:
+    keys = keys + key
+  print(keys)
+  loop x in []:
+    print("never")
+  loop x in "":
+    print("never")
+  count = 0
+  loop a in [1, 2, 3]:
+    loop b in [1, 2, 3]:
+      if b == 2:
+        break
+      count = count + 1
+  print(count)
+  outer = 0
+  loop a in [1, 2]:
+    loop b in [10, 20]:
+      if b == 20:
+        continue
+      outer = outer + a * b
+  print(outer)

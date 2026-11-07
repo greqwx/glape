@@ -1,0 +1,28 @@
+3
+-3
+-3
+3
+1
+-1
+1
+-1
+1.5
+-1.5
+3.5
+3.5
+4.5
+0
+0.5
+inf
+20
+caught: integer overflow
+caught: integer overflow
+caught: integer overflow
+caught: integer overflow
+caught: integer overflow
+caught: integer overflow
+caught: division by zero
+3
+-3
+caught: cannot convert float to int
+caught: cannot convert float to int

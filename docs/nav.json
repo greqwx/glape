@@ -1,0 +1,8 @@
+[
+  {"id": "home", "title": "Home"},
+  {"id": "syntax", "title": "Syntax"},
+  {"id": "errors", "title": "Errors"},
+  {"id": "libraries", "title": "Libraries"},
+  {"id": "usage", "title": "Usage"},
+  {"id": "build", "title": "Build"}
+]

@@ -1,0 +1,43 @@
+// (c) Glape Contributors
+
+load list
+
+define make_counter():
+  count = 0
+  define next():
+    count = count + 1
+    return count
+  return next
+
+define main():
+  items = []
+  list.push(items, items)
+  list.push(items, "tail")
+  print(len(items))
+  print(items[0] == items)
+  print(items[1])
+
+  node = {}
+  node.name = "root"
+  node.self = node
+  node.items = items
+  print(node.name)
+  print(node.self == node)
+  print(node.items[0] == node.items)
+  print(node)
+
+  counters = []
+  loop i in [1, 2, 3]:
+    list.push(counters, make_counter())
+  loop counter in counters:
+    print(counter())
+  loop counter in counters:
+    print(counter())
+
+  captures = []
+  loop i in [1, 2, 3]:
+    define capture():
+      return i
+    list.push(captures, capture)
+  loop capture in captures:
+    print(capture())

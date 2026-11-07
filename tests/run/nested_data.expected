@@ -1,0 +1,8 @@
+{user: {name: Ada, roles: [admin, dev]}, meta: {active: true}}
+Ada
+dev
+{user: {name: Grace, roles: [owner, dev]}, meta: {active: false}}
+2
+owner
+dev
+{1: one, true: yes, x: 2}

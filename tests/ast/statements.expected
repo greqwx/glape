@@ -1,0 +1,60 @@
+program
+  load fs, json
+  define backup(dir, dest)!
+    assign
+      target
+        ident x
+      value
+        binary +
+          left
+            int 1
+          right
+            binary *
+              left
+                int 2
+              right
+                int 3
+    loop f
+      in
+        list
+          item
+            int 1
+          item
+            int 2
+      body
+        if
+          cond
+            binary >
+              left
+                ident f
+              right
+                int 1
+          then
+            expr
+              call
+                callee
+                  ident print
+                arg
+                  ident f
+          else
+            skip
+    return
+      value
+        ident x
+  define main(args)
+    catch err
+      expr
+        call
+          callee
+            ident backup
+          arg
+            string "src"
+          arg
+            string "dst"
+      body
+        expr
+          call
+            callee
+              ident print
+            arg
+              ident err

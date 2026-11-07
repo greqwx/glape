@@ -1,0 +1,11 @@
+x=5
+name=Ada/Bob
+items=[1, 2, 3]
+item=2
+user=Bob
+sum=15
+nested=12
+bool=true
+escaped=$x
+braces={5}
+map=1

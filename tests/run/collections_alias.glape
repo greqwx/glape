@@ -1,0 +1,26 @@
+// (c) Glape Contributors
+
+load list
+
+define modify(items):
+  items[0] = 99
+  list.push(items, 4)
+  return items
+
+define main():
+  xs = [1, 2, 3]
+  ys = xs
+  ys[0] = 10
+  print(xs)
+  modify(xs)
+  print(xs)
+  copy = xs + []
+  copy[0] = -1
+  print(xs)
+  print(copy)
+  m = {a: 1}
+  n = m
+  n.a = 2
+  n["b"] = 3
+  print(m)
+  print(n)

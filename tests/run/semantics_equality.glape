@@ -1,0 +1,29 @@
+// (c) Glape Contributors
+
+define main():
+  print([1] == [1])
+  a = [1]
+  b = a
+  print(a == b)
+  print({x: 1} == {x: 1})
+  print("abc" == "abc")
+  print("abc" != "abd")
+  print(1 == 1.0)
+  print(1.5 == 1.5)
+  print(nil == nil)
+  print(nil == false)
+  print(true == 1)
+  print(9007199254740993 == 9007199254740992.0)
+  print(9007199254740993 > 9007199254740992.0)
+  print(9007199254740992 == 9007199254740992.0)
+  nan = to_float("nan")
+  print(nan == nan)
+  print(nan != nan)
+  print(nan < 1.0)
+  print(nan >= 1.0)
+  inf = to_float("inf")
+  print(inf > 1e300)
+  print(inf == inf)
+  print(to_str(inf))
+  print(to_str(-inf))
+  print(to_str(nan))

@@ -1,0 +1,24 @@
+// (c) Glape Contributors
+
+define show(value):
+  if value:
+    return "T"
+  return "F"
+
+define main():
+  print(show(nil))
+  print(show(false))
+  print(show(true))
+  print(show(0))
+  print(show(1))
+  print(show(0.0))
+  print(show(-1))
+  print(show(""))
+  print(show("x"))
+  print(show([]))
+  print(show([0]))
+  print(show({}))
+  print(show({a: 0}))
+  print(not nil)
+  print(not "")
+  print(not [])

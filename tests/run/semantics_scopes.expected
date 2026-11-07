@@ -1,0 +1,12 @@
+global
+1
+caught: undefined variable 'local'
+changed
+10
+20
+caught: undefined variable 'n'
+param
+changed
+1
+2
+3

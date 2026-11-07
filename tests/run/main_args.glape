@@ -1,0 +1,6 @@
+// (c) Glape Contributors
+
+define main(args):
+  print(type(args))
+  print(len(args))
+  print(args)

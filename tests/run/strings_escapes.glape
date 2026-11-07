@@ -1,0 +1,16 @@
+// (c) Glape Contributors
+
+define main():
+  name = "Ada"
+  name2 = "Bob"
+  print("line1\nline2")
+  print("tab\tend")
+  print("quote:\" apostrophe:\' backslash:\\")
+  print("cost: \$5")
+  print("A=\x41")
+  print("name=$name/$name2")
+  print("sum=${1 + 2 * 3}")
+  print("map=${({a: 1}).a}")
+  print("nested=${(1 + 2) * 3}")
+  print("dollar=$ and $1")
+  print("braces={$name}")

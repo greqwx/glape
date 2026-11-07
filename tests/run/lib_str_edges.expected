@@ -1,0 +1,28 @@
+AZ1_
+az1_
+[abc]
+3
+3
+1
+-1
+0
+true
+true
+true
+true
+true
+[a, , b, ]
+2
+[]
+a
+bb
+[]
+[]
+abcdef
+caught: str.split separator must not be empty
+caught: str.replace search string must not be empty
+caught: str.repeat count must not be negative
+caught: str.substr range is out of bounds
+caught: str.slice range is out of bounds
+caught: str.join expects string for 'item', got int
+caught: str.upper expects string for 'text', got int

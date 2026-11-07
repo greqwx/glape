@@ -1,0 +1,76 @@
+program
+  define demo(a, b)
+    assign
+      target
+        ident m
+      value
+        map
+          entry
+            key
+              ident name
+            value
+              string "glape"
+          entry
+            key
+              string "count"
+            value
+              int 2
+    assign
+      target
+        ident l
+      value
+        list
+          item
+            int 1
+          item
+            float 2.5
+          item
+            int 255
+          item
+            bool true
+          item
+            nil
+          item
+            binary and
+              left
+                ident a
+              right
+                unary not
+                  operand
+                    ident b
+    assign
+      target
+        ident r
+      value
+        binary or
+          left
+            binary >=
+              left
+                binary *
+                  left
+                    binary +
+                      left
+                        ident a
+                      right
+                        ident b
+                  right
+                    int 2
+              right
+                int 3
+          right
+            binary !=
+              left
+                ident b
+              right
+                int 0
+    expr
+      call
+        callee
+          field
+            object
+              ident obj
+            name run
+        arg
+          ident r
+        arg
+          ident m

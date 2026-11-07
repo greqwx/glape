@@ -1,0 +1,7 @@
+// (c) Glape Contributors
+
+define demo(a, b):
+  m = {name: "glape", "count": 2}
+  l = [1, 2.5, 0xFF, true, nil, a and not b]
+  r = (a + b) * 2 >= 3 or b != 0
+  obj.run(r, m)

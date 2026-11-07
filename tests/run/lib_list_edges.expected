@@ -1,0 +1,23 @@
+[1]
+[1]
+1
+[]
+caught: list.pop from empty list
+[5]
+[5, 6]
+[5, 6, 7]
+caught: list.insert index 4 out of bounds for list of length 3
+6
+[5, 7]
+caught: list.remove index 99 out of bounds for list of length 2
+true
+true
+-1
+[5, 7, 5, 7]
+[5, 7]
+[5, 7, 5, 7]
+[100, 7]
+[]
+0
+caught: list.push expects list for 'items', got int
+caught: list.insert expects int for 'index', got string

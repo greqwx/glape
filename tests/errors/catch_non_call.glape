@@ -1,0 +1,5 @@
+// (c) Glape Contributors
+
+define main():
+  x = 1 catch err:
+    print(err)

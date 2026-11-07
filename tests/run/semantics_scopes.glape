@@ -1,0 +1,45 @@
+// (c) Glape Contributors
+
+load list
+
+x = "global"
+
+define show():
+  print(x)
+
+define read_local():
+  return local
+
+define read_n():
+  return n
+
+define takes_param(x):
+  x = "param"
+  return x
+
+define main():
+  show()
+  if true:
+    local = 1
+    print(local)
+  read_local() catch err:
+    print("caught: $err")
+  x = "changed"
+  print(x)
+  loop n in [1, 2]:
+    n = n * 10
+    print(n)
+  read_n() catch err:
+    print("caught: $err")
+  print(takes_param("arg"))
+  print(x)
+  defs = []
+  loop i in [1, 2, 3]:
+    define get():
+      return i
+    list.push(defs, get)
+  print(defs[0]())
+  print(defs[1]())
+  print(defs[2]())
+
+main()

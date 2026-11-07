@@ -1,0 +1,9 @@
+5
+caught: division by zero
+caught: undefined variable 'nope'
+caught: operator MINUS expects numbers, got int and string
+caught: unary MINUS expects a number, got string
+caught: cannot iterate over int
+caught: nil is not callable
+caught: boom
+after

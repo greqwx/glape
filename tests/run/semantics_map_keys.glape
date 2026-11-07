@@ -1,0 +1,30 @@
+// (c) Glape Contributors
+
+define get_at(object, key):
+  return object[key]
+
+define main():
+  m = {1: "one", 1.0: "float", true: "yes", "true": "string", 1 + 1: "two"}
+  print(m)
+  print(m["1"])
+  get_at(m, "1.0") catch err:
+    print("caught: $err")
+  print(m["true"])
+  print(m["2"])
+  print(len(m))
+  x = "key"
+  m2 = {x: 1}
+  print(m2)
+  print(m2["x"])
+  m2[x] = 2
+  print(m2)
+  m3 = {a: 1, a: 2}
+  print(m3)
+  print(m3["a"])
+  m4 = {}
+  m4["b"] = 1
+  m4["a"] = 2
+  m4["b"] = 3
+  print(m4)
+  loop k in m4:
+    print(k)

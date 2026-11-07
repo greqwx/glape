@@ -1,0 +1,89 @@
+# (c) Glape Contributors
+
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.asset }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # a release that misses a platform is worse than no release
+      fail-fast: true
+      matrix:
+        include:
+          - { asset: glape-linux-amd64, os: ubuntu-latest, ext: tar.gz, test: true, flags: "-DCMAKE_EXE_LINKER_FLAGS=-static" }
+          - { asset: glape-linux-arm64, os: ubuntu-24.04-arm, ext: tar.gz, test: true, flags: "-DCMAKE_EXE_LINKER_FLAGS=-static" }
+          - { asset: glape-macos-arm64, os: macos-latest, ext: tar.gz, test: true, flags: "" }
+          - { asset: glape-macos-amd64, os: macos-latest, ext: tar.gz, test: false, flags: "-DCMAKE_OSX_ARCHITECTURES=x86_64" }
+          - { asset: glape-windows-amd64, os: windows-latest, ext: zip, test: true, flags: "-A x64 -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" }
+          - { asset: glape-windows-x86, os: windows-latest, ext: zip, test: true, flags: "-A Win32 -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" }
+          - { asset: glape-windows-arm64, os: windows-latest, ext: zip, test: false, flags: "-A ARM64 -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        shell: bash
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DGLAPE_VERSION="${GITHUB_REF_NAME#v}" ${{ matrix.flags }}
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Install
+        run: cmake --install build --config Release --prefix dist
+
+      - name: Test
+        if: ${{ matrix.test }}
+        shell: bash
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      # arm64 windows and the cross built intel mac binary cannot run on these runners
+      - name: Smoke test
+        if: ${{ matrix.test }}
+        shell: bash
+        run: .github/scripts/smoke.sh "$GITHUB_WORKSPACE/dist/bin/glape"
+
+      - name: Package
+        if: ${{ matrix.ext == 'tar.gz' }}
+        run: tar -czf "${{ matrix.asset }}.tar.gz" -C dist/bin glape
+
+      - name: Package
+        if: ${{ matrix.ext == 'zip' }}
+        shell: pwsh
+        run: Compress-Archive -Path dist/bin/glape.exe -DestinationPath "${{ matrix.asset }}.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: asset-${{ matrix.asset }}
+          path: ${{ matrix.asset }}.${{ matrix.ext }}
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: asset-*
+          merge-multiple: true
+          path: assets
+
+      - name: Checksums
+        working-directory: assets
+        run: sha256sum glape-* > checksums.txt
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=""
+          # tags like v1.2.0-beta.1 stay out of the "latest" release
+          case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" assets/* \
+            --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --generate-notes $flags

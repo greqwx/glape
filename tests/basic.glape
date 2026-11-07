@@ -1,0 +1,15 @@
+// (c) Glape Contributors
+
+load fs, json, path
+
+define backup(dir, dest):
+  loop f in fs.glob("$dir/*.log"):
+    if fs.size(f) > 1_000_000:
+      sh("gzip -c $f > $dest/${path.base(f)}.gz") catch err:
+        print("skipping $f: $err")
+        skip
+
+define main(args):
+  cfg = json.parse(fs.read("config.json"))
+  backup(cfg.logs, cfg.dest)
+  print("done")

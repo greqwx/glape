@@ -1,0 +1,35 @@
+// (c) Glape Contributors
+
+load math
+
+define main():
+  print(math.abs(-5))
+  print(math.abs(-2.5))
+  print(math.abs(0))
+  print(math.sqrt(0))
+  print(math.sqrt(2))
+  print(math.floor(2.9))
+  print(math.ceil(2.1))
+  print(math.round(2.5))
+  print(math.round(-2.5))
+  print(math.min(2, 3))
+  print(math.min(2, 3.5))
+  print(math.max(2.5, 2))
+  print(math.clamp(-5, 0, 10))
+  print(math.clamp(5.5, 0, 10))
+  print(math.pow(2, 3))
+  print(math.abs(math.log(math.e) - 1) < 0.000001)
+  print(math.sin(0))
+  print(math.cos(0))
+  print(math.atan2(1, 1))
+  print(math.pi > 3.14)
+  math.sqrt(-1) catch err:
+    print("caught: $err")
+  math.log(0) catch err:
+    print("caught: $err")
+  math.asin(2) catch err:
+    print("caught: $err")
+  math.clamp(1, 10, 0) catch err:
+    print("caught: $err")
+  math.pow("x", 2) catch err:
+    print("caught: $err")

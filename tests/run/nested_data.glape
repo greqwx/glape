@@ -1,0 +1,16 @@
+// (c) Glape Contributors
+
+define main():
+  data = {user: {name: "Ada", roles: ["admin", "dev"]}, meta: {active: true}}
+  print(data)
+  print(data.user.name)
+  print(data["user"]["roles"][1])
+  data.user.name = "Grace"
+  data.user.roles[0] = "owner"
+  data["meta"]["active"] = false
+  print(data)
+  print(len(data.user.roles))
+  loop role in data.user.roles:
+    print(role)
+  weird = {1: "one", true: "yes", "x": 1, x: 2}
+  print(weird)

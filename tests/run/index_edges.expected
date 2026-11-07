@@ -1,0 +1,17 @@
+3
+Ada
+Ada
+{user: {name: Grace}}
+[1, 20]
+caught: index 5 out of bounds for list of length 2
+caught: index -1 out of bounds for list of length 2
+caught: list index must be int, got string
+caught: cannot assign to string index
+caught: index 3 out of bounds for string of length 3
+caught: cannot index int
+caught: map index must be string, got int
+caught: map has no key 'missing'
+3
+true
+true
+true

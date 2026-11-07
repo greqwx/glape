@@ -1,0 +1,16 @@
+// (c) Glape Contributors
+
+load fs, json
+
+define backup(dir, dest)!:
+  x = 1 + 2 * 3
+  loop f in [1, 2]:
+    if f > 1:
+      print(f)
+    else:
+      skip
+  return x
+
+define main(args):
+  backup("src", "dst") catch err:
+    print(err)

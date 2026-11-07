@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!-- (c) Glape Contributors -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff;--fg:#111;--muted:#666;--line:#ddd;--code:#f4f4f4;--link:#0b3d91;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;
+  color-scheme:light;
+}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--mono)}
+a{color:var(--link)}
+a:focus-visible,select:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+header{text-align:center;padding:2.5rem 1rem .8rem}
+h1{margin:0;font:700 2.4rem/1 var(--mono)}
+.version{margin-top:.9rem;font-size:.9rem}
+select{font:inherit;padding:.15rem .3rem;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+nav{text-align:center;padding:.4rem 1rem 1rem;border-bottom:1px solid var(--line)}
+nav a{margin:0 .6rem;white-space:nowrap}
+nav a[aria-current="page"]{color:var(--fg);font-weight:700;text-decoration:none}
+main{max-width:46rem;margin:0 auto;padding:0 1.2rem 3rem}
+h2{font:700 1.3rem/1.3 var(--mono);margin:2rem 0 .5rem}
+h3,h4{font:700 1rem/1.3 var(--mono);margin:1.8rem 0 .3rem}
+code,pre{font-family:var(--mono);font-size:.9em}
+code{background:var(--code);padding:.05em .3em;border-radius:3px}
+pre{background:var(--code);padding:.8rem 1rem;overflow-x:auto;line-height:1.5;margin:.8rem 0}
+pre code{background:none;padding:0;font-size:1em}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:.3rem .6rem;text-align:left;vertical-align:top}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1.2rem 1rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Glape</h1>
+  <div class="version">
+    <label>Version <select id="ref"></select></label>
+  </div>
+</header>
+<nav id="menu"></nav>
+<main id="content">Loading...</main>
+<footer>© Glape Contributors</footer>
+<script>
+(function () {
+  var REPO = "greqwx/glape";
+  var DEFAULT_REF = "main";
+  var RAW = "https://raw.githubusercontent.com/" + REPO + "/";
+  var API = "https://api.github.com/repos/" + REPO;
+
+  var select = document.getElementById("ref");
+  var menu = document.getElementById("menu");
+  var content = document.getElementById("content");
+  var navCache = {};
+  var refs = { branches: [], tags: [] };
+
+  function esc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function encodeRef(ref) {
+    return ref.split("/").map(encodeURIComponent).join("/");
+  }
+
+  function pageUrl(ref, page) {
+    return "?ref=" + encodeURIComponent(ref) + "&page=" + encodeURIComponent(page);
+  }
+
+  function fetchText(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    });
+  }
+
+  // markdown, only what the docs use
+
+  function inline(text, ref) {
+    return text.split(/(`[^`]+`)/).map(function (part) {
+      if (part.length > 1 && part.charAt(0) === "`" && part.slice(-1) === "`")
+        return "<code>" + esc(part.slice(1, -1)) + "</code>";
+      var html = esc(part);
+      html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      return html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (m, label, url) {
+        if (/^https?:\/\//.test(url)) return '<a href="' + url + '">' + label + "</a>";
+        return '<a href="' + esc(pageUrl(ref, url)) + '">' + label + "</a>";
+      });
+    }).join("");
+  }
+
+  function cells(line) {
+    return line.trim().replace(/^\||\|$/g, "").split("|").map(function (c) { return c.trim(); });
+  }
+
+  function markdown(src, ref) {
+    var lines = src.replace(/\r\n/g, "\n").split("\n");
+    var out = [];
+    var para = [];
+    var i = 0;
+
+    function flush() {
+      if (para.length) out.push("<p>" + inline(para.join(" "), ref) + "</p>");
+      para = [];
+    }
+
+    while (i < lines.length) {
+      var line = lines[i];
+      var m;
+
+      if (/^```/.test(line)) {
+        flush();
+        var code = [];
+        i++;
+        while (i < lines.length && !/^```/.test(lines[i])) code.push(lines[i++]);
+        i++;
+        out.push("<pre><code>" + esc(code.join("\n")) + "</code></pre>");
+      } else if ((m = /^(#{1,3})\s+(.*)$/.exec(line))) {
+        flush();
+        var level = m[1].length + 1;
+        out.push("<h" + level + ">" + inline(m[2], ref) + "</h" + level + ">");
+        i++;
+      } else if (/^\|/.test(line) && i + 1 < lines.length && /^\|[\s:|-]+\|?\s*$/.test(lines[i + 1])) {
+        flush();
+        var head = cells(line);
+        var rows = [];
+        i += 2;
+        while (i < lines.length && /^\|/.test(lines[i])) rows.push(cells(lines[i++]));
+        out.push("<table><tr>" + head.map(function (c) { return "<th>" + inline(c, ref) + "</th>"; }).join("") + "</tr>" +
+          rows.map(function (r) {
+            return "<tr>" + r.map(function (c) { return "<td>" + inline(c, ref) + "</td>"; }).join("") + "</tr>";
+          }).join("") + "</table>");
+      } else if (/^- /.test(line)) {
+        flush();
+        var items = [];
+        while (i < lines.length && /^- /.test(lines[i])) items.push("<li>" + inline(lines[i++].slice(2), ref) + "</li>");
+        out.push("<ul>" + items.join("") + "</ul>");
+      } else if (line.trim() === "") {
+        flush();
+        i++;
+      } else {
+        para.push(line.trim());
+        i++;
+      }
+    }
+
+    flush();
+    return out.join("\n");
+  }
+
+  // versions
+
+  function loadRefs() {
+    var cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem("glape-refs")); } catch (e) {}
+    if (cached) return Promise.resolve(cached);
+
+    function names(path) {
+      return fetch(API + path + "?per_page=100")
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (list) { return list.map(function (item) { return item.name; }); })
+        .catch(function () { return []; });
+    }
+
+    return Promise.all([names("/branches"), names("/tags")]).then(function (result) {
+      var data = { branches: result[0], tags: result[1] };
+      try { sessionStorage.setItem("glape-refs", JSON.stringify(data)); } catch (e) {}
+      return data;
+    });
+  }
+
+  function group(label, names) {
+    if (!names.length) return "";
+    return '<optgroup label="' + label + '">' + names.map(function (n) {
+      return '<option value="' + esc(n) + '">' + esc(n) + "</option>";
+    }).join("") + "</optgroup>";
+  }
+
+  function fillSelect(current) {
+    var known = refs.branches.concat(refs.tags);
+    var extra = known.indexOf(current) === -1 ? [current] : [];
+    select.innerHTML = group("Branches", refs.branches) + group("Tags", refs.tags) + group("Other", extra);
+    select.value = current;
+  }
+
+  // pages
+
+  function loadNav(ref) {
+    if (navCache[ref]) return Promise.resolve(navCache[ref]);
+    return fetchText(RAW + encodeRef(ref) + "/docs/nav.json").then(function (text) {
+      navCache[ref] = JSON.parse(text);
+      return navCache[ref];
+    });
+  }
+
+  function renderMenu(nav, ref, page) {
+    menu.innerHTML = nav.map(function (item) {
+      var current = item.id === page ? ' aria-current="page"' : "";
+      return '<a href="' + esc(pageUrl(ref, item.id)) + '"' + current + ">" + esc(item.title) + "</a>";
+    }).join("") + '<a href="https://github.com/' + REPO + '/tree/' + encodeRef(ref) + '">Source</a>';
+  }
+
+  function render() {
+    var params = new URLSearchParams(location.search);
+    var ref = params.get("ref") || DEFAULT_REF;
+    var wanted = params.get("page");
+
+    fillSelect(ref);
+    content.textContent = "Loading...";
+
+    loadNav(ref).then(function (nav) {
+      var page = nav.some(function (p) { return p.id === wanted; }) ? wanted : nav[0].id;
+      var title = nav.filter(function (p) { return p.id === page; })[0].title;
+
+      renderMenu(nav, ref, page);
+      document.title = title + " | Glape " + ref;
+
+      return fetchText(RAW + encodeRef(ref) + "/docs/pages/" + encodeURIComponent(page) + ".md").then(function (text) {
+        content.innerHTML = markdown(text, ref);
+        window.scrollTo(0, 0);
+      });
+    }).catch(function () {
+      menu.innerHTML = "";
+      content.textContent = "There is no documentation for " + ref + ".";
+    });
+  }
+
+  function go(ref, page) {
+    history.pushState(null, "", pageUrl(ref, page));
+    render();
+  }
+
+  select.addEventListener("change", function () {
+    var current = new URLSearchParams(location.search).get("page") || "";
+    go(select.value, current);
+  });
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("a");
+    if (!link || link.getAttribute("href").charAt(0) !== "?") return;
+    event.preventDefault();
+    var params = new URL(link.href).searchParams;
+    go(params.get("ref"), params.get("page"));
+  });
+
+  window.addEventListener("popstate", render);
+
+  loadRefs().then(function (data) {
+    refs = data;
+    render();
+  });
+})();
+</script>
+</body>
+</html>

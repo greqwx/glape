@@ -1,0 +1,36 @@
+// (c) Glape Contributors
+
+define divide(a, b):
+  return a / b
+
+define missing():
+  return nope
+
+define subtract(a, b):
+  return a - b
+
+define negate(x):
+  return -x
+
+define iterate(x):
+  loop item in x:
+    return item
+  return nil
+
+define main():
+  print(divide(10, 2))
+  divide(1, 0) catch err:
+    print("caught: $err")
+  missing() catch err:
+    print("caught: $err")
+  subtract(1, "x") catch err:
+    print("caught: $err")
+  negate("x") catch err:
+    print("caught: $err")
+  iterate(1) catch err:
+    print("caught: $err")
+  nil() catch err:
+    print("caught: $err")
+  fail("boom") catch err:
+    print("caught: $err")
+  print("after")
