@@ -68,6 +68,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      # the notes are built from the commit history, so it needs every commit and tag
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/download-artifact@v4
         with:
           pattern: asset-*
@@ -78,6 +83,29 @@ jobs:
         working-directory: assets
         run: sha256sum glape-* > checksums.txt
 
+      - name: Notes
+        run: |
+          limit=20
+          # a stable release is compared with the previous stable one, a prerelease with any tag
+          exclude=()
+          case "$GITHUB_REF_NAME" in *-*) ;; *) exclude=(--exclude '*-*') ;; esac
+          previous="$(git describe --tags --abbrev=0 --match 'v*' "${exclude[@]}" "$GITHUB_REF_NAME^" 2>/dev/null || true)"
+
+          if [ -n "$previous" ]; then
+            range="$previous..$GITHUB_REF_NAME"
+            full="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$previous...$GITHUB_REF_NAME"
+          else
+            range="$GITHUB_REF_NAME"
+            full="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commits/$GITHUB_REF_NAME"
+          fi
+
+          git log --max-count="$limit" --format='- %s (%h)' "$range" > notes.md
+
+          if [ "$(git rev-list --count "$range")" -gt "$limit" ]; then
+            # the empty line keeps the dots out of the last list item
+            printf '\n...\n\n**Full Changelog**: %s\n' "$full" >> notes.md
+          fi
+
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -86,4 +114,4 @@ jobs:
           # tags like v1.2.0-beta.1 stay out of the "latest" release
           case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
           gh release create "$GITHUB_REF_NAME" assets/* \
-            --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --generate-notes $flags
+            --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --notes-file notes.md $flags
