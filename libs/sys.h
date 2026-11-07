@@ -36,4 +36,16 @@ int sys_username(char *out, size_t size);
 int sys_home_dir(char *out, size_t size);
 int sys_temp_dir(char *out, size_t size);
 
+/*
+ * Environment variables. sys_env_get returns 1 and a malloc'd copy in *value when the variable
+ * is set, 0 when it is not, and -1 on failure. sys_env_each calls visit for every variable and
+ * stops early, returning 0, when visit returns 0.
+ */
+typedef int (*SysEnvVisit)(const char *name, size_t name_length, const char *value, void *context);
+
+int sys_env_get(const char *name, char **value);
+int sys_env_set(const char *name, const char *value);
+int sys_env_remove(const char *name);
+int sys_env_each(SysEnvVisit visit, void *context);
+
 #endif

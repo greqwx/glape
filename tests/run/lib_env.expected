@@ -1,0 +1,22 @@
+false
+nil
+fallback
+true
+hello
+hello
+changed
+map
+changed
+true
+0
+true
+false
+false
+true
+false
+caught: env.get expects between 1 and 2 arguments, got 0
+caught: env.get expects string for 'name', got int
+caught: env.get got an invalid variable name
+caught: env.set got an invalid variable name
+caught: env.set expects string for 'value', got int
+caught: env.all expects 0 argument(s), got 1

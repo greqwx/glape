@@ -4,6 +4,7 @@
 
 #include <string.h>
 
+#include "lib_env.h"
 #include "lib_list.h"
 #include "lib_map.h"
 #include "lib_math.h"
@@ -18,6 +19,7 @@ static const LibDef libraries[] = {
     {"math", lib_math_install},
     {"os", lib_os_install},
     {"path", lib_path_install},
+    {"env", lib_env_install},
 };
 
 static const LibDef *find_library(const char *name)

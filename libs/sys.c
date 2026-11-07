@@ -119,6 +119,62 @@ int sys_temp_dir(char *out, size_t size)
     return copy_text(out, size, path);
 }
 
+int sys_env_get(const char *name, char **value)
+{
+    DWORD size = GetEnvironmentVariableA(name, NULL, 0);
+    DWORD length;
+    char *text;
+
+    if (size == 0)
+        return 0;
+
+    text = (char *)malloc(size);
+    if (text == NULL)
+        return -1;
+
+    length = GetEnvironmentVariableA(name, text, size);
+    if (length >= size) {
+        free(text);
+        return -1;
+    }
+
+    *value = text;
+    return 1;
+}
+
+int sys_env_set(const char *name, const char *value)
+{
+    return SetEnvironmentVariableA(name, value) != 0;
+}
+
+int sys_env_remove(const char *name)
+{
+    return SetEnvironmentVariableA(name, NULL) != 0;
+}
+
+int sys_env_each(SysEnvVisit visit, void *context)
+{
+    char *block = GetEnvironmentStringsA();
+    const char *entry;
+    int ok = 1;
+
+    if (block == NULL)
+        return 0;
+
+    for (entry = block; ok && *entry != '\0'; entry += strlen(entry) + 1) {
+        const char *equals = strchr(entry, '=');
+
+        /* entries like "=C:=C:\dir" keep per drive directories, they start with '=' */
+        if (equals == NULL || equals == entry)
+            continue;
+
+        ok = visit(entry, (size_t)(equals - entry), equals + 1, context);
+    }
+
+    FreeEnvironmentStringsA(block);
+    return ok;
+}
+
 #else
 
 int sys_cpu_count(void)
@@ -168,6 +224,57 @@ int sys_temp_dir(char *out, size_t size)
         return 1;
 
     return copy_text(out, size, "/tmp");
+}
+
+extern char **environ;
+
+int sys_env_get(const char *name, char **value)
+{
+    const char *text = getenv(name);
+    size_t length;
+    char *copy;
+
+    if (text == NULL)
+        return 0;
+
+    length = strlen(text);
+    copy = (char *)malloc(length + 1);
+    if (copy == NULL)
+        return -1;
+
+    memcpy(copy, text, length + 1);
+    *value = copy;
+    return 1;
+}
+
+int sys_env_set(const char *name, const char *value)
+{
+    return setenv(name, value, 1) == 0;
+}
+
+int sys_env_remove(const char *name)
+{
+    return unsetenv(name) == 0;
+}
+
+int sys_env_each(SysEnvVisit visit, void *context)
+{
+    char **entry;
+
+    if (environ == NULL)
+        return 1;
+
+    for (entry = environ; *entry != NULL; entry++) {
+        const char *equals = strchr(*entry, '=');
+
+        if (equals == NULL || equals == *entry)
+            continue;
+
+        if (!visit(*entry, (size_t)(equals - *entry), equals + 1, context))
+            return 0;
+    }
+
+    return 1;
 }
 
 #endif

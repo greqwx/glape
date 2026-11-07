@@ -1,0 +1,36 @@
+// (c) Glape Contributors
+
+load env, map
+
+define main():
+  print(env.has("GLAPE_TEST_VAR"))
+  print(env.get("GLAPE_TEST_VAR"))
+  print(env.get("GLAPE_TEST_VAR", "fallback"))
+  env.set("GLAPE_TEST_VAR", "hello")
+  print(env.has("GLAPE_TEST_VAR"))
+  print(env.get("GLAPE_TEST_VAR"))
+  print(env.get("GLAPE_TEST_VAR", "fallback"))
+  env.set("GLAPE_TEST_VAR", "changed")
+  print(env.get("GLAPE_TEST_VAR"))
+  print(type(env.all()))
+  print(map.get(env.all(), "GLAPE_TEST_VAR"))
+  env.set("GLAPE_TEST_EMPTY", "")
+  print(env.has("GLAPE_TEST_EMPTY"))
+  print(len(env.get("GLAPE_TEST_EMPTY")))
+  print(env.remove("GLAPE_TEST_EMPTY"))
+  print(env.remove("GLAPE_TEST_EMPTY"))
+  print(env.has("GLAPE_TEST_EMPTY"))
+  print(env.remove("GLAPE_TEST_VAR"))
+  print(map.has(env.all(), "GLAPE_TEST_VAR"))
+  env.get() catch err:
+    print("caught: $err")
+  env.get(1) catch err:
+    print("caught: $err")
+  env.get("") catch err:
+    print("caught: $err")
+  env.set("A=B", "x") catch err:
+    print("caught: $err")
+  env.set("GLAPE_TEST_VAR", 1) catch err:
+    print("caught: $err")
+  env.all(1) catch err:
+    print("caught: $err")
