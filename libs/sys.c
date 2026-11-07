@@ -1,6 +1,7 @@
 // (c) Glape Contributors
 
-#ifndef _WIN32
+/* on macOS this macro hides _SC_NPROCESSORS_ONLN, the default headers expose everything */
+#if !defined(_WIN32) && !defined(__APPLE__)
 #define _POSIX_C_SOURCE 200809L
 #endif
 
