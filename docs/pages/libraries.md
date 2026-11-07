@@ -25,6 +25,7 @@ Add `load` at the top of the file to use them.
 | `map` | keys, values, has, get, set, remove, clear, update |
 | `math` | abs, sqrt, pow, exp, log, log10, sin, cos, tan, asin, acos, atan, atan2, floor, ceil, round, min, max, clamp |
 | `os` | hostname, username, home_dir, temp_dir, cpu_count, and the values name, arch, sep, eol |
+| `path` | join, normalize, basename, dirname, ext, is_absolute |
 
 ## os
 
@@ -41,6 +42,31 @@ load os
 print(os.name)          // linux
 print(os.cpu_count())   // 8
 print(os.temp_dir())    // /tmp
+```
+
+## path
+
+`path` works on strings only and never touches the file system. On Windows it accepts both `/` and `\`
+and writes `\` in its results, and it understands drive letters (`C:\data`) and network paths.
+
+- `path.join(a, b, ...)` joins one or more parts with the separator and normalizes the result.
+  Empty parts are skipped, and a part that starts with a separator does not discard the ones before it.
+- `path.normalize(p)` collapses repeated separators, drops `.` and resolves `..` without looking at the disk.
+  A leading `..` stays in a relative path and is dropped at the root. An empty result is `"."`, and a
+  trailing separator is removed.
+- `path.basename(p)` is the last component, `""` for a root.
+- `path.dirname(p)` is everything before it, `"."` when there is nothing before it.
+- `path.ext(p)` is the extension of the last component including the dot, or `""`.
+  A leading dot is part of the name, so `.bashrc` has no extension.
+- `path.is_absolute(p)` is true for a path that starts with a separator, or on Windows with a drive and a separator.
+
+```
+load path
+
+print(path.join("src", "..", "libs", "a.c"))   // libs/a.c
+print(path.dirname("/usr/lib/x.so"))           // /usr/lib
+print(path.basename("/usr/lib/x.so"))          // x.so
+print(path.ext("archive.tar.gz"))              // .gz
 ```
 
 ## Example
