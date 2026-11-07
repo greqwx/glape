@@ -1,0 +1,12 @@
+true
+true
+true
+true
+true
+int
+true
+true
+string
+string
+caught: os.cpu_count expects 0 argument(s), got 1
+caught: os.hostname expects 0 argument(s), got 1

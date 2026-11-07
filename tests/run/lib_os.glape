@@ -1,0 +1,19 @@
+// (c) Glape Contributors
+
+load os, str
+
+define main():
+  print(os.name == "linux" or os.name == "macos" or os.name == "windows")
+  print(os.arch == "amd64" or os.arch == "arm64" or os.arch == "x86" or os.arch == "arm")
+  print(os.sep == "/" or os.sep == "\\")
+  print(len(os.eol) > 0)
+  print(os.cpu_count() >= 1)
+  print(type(os.cpu_count()))
+  print(len(os.hostname()) > 0)
+  print(len(os.temp_dir()) > 0)
+  print(type(os.home_dir()))
+  print(type(os.username()))
+  os.cpu_count(1) catch err:
+    print("caught: $err")
+  os.hostname("x") catch err:
+    print("caught: $err")

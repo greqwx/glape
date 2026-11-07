@@ -7,6 +7,7 @@
 #include "lib_list.h"
 #include "lib_map.h"
 #include "lib_math.h"
+#include "lib_os.h"
 #include "lib_str.h"
 
 static const LibDef libraries[] = {
@@ -14,6 +15,7 @@ static const LibDef libraries[] = {
     {"list", lib_list_install},
     {"map", lib_map_install},
     {"math", lib_math_install},
+    {"os", lib_os_install},
 };
 
 static const LibDef *find_library(const char *name)
