@@ -1,0 +1,52 @@
+// (c) Glape Contributors
+
+load os, str, path
+
+define show(text):
+  shown = str.replace(text, os.sep, "/")
+  print("[$shown]")
+
+define main():
+  show(path.join("a", "b", "c"))
+  show(path.join("a/", "/b"))
+  show(path.join("/", "b"))
+  show(path.join("a", "", "b"))
+  show(path.join("a", "..", "b"))
+  show(path.join("a"))
+  show(path.join(""))
+  show(path.normalize("a//b/./c/"))
+  show(path.normalize("a/b/../../.."))
+  show(path.normalize("/a/../.."))
+  show(path.normalize("../a"))
+  show(path.normalize("../../a/../b"))
+  show(path.normalize(""))
+  show(path.normalize("./"))
+  show(path.basename("a/b/c.txt"))
+  show(path.basename("a/b/"))
+  show(path.basename("/"))
+  show(path.basename(""))
+  show(path.dirname("a/b/c.txt"))
+  show(path.dirname("a"))
+  show(path.dirname("/a"))
+  show(path.dirname("a/b/"))
+  show(path.dirname("/a/b"))
+  show(path.dirname("/"))
+  show(path.dirname(""))
+  show(path.ext("a/b.txt"))
+  show(path.ext("a.tar.gz"))
+  show(path.ext(".bashrc"))
+  show(path.ext("a."))
+  show(path.ext("dir.d/file"))
+  show(path.ext(".."))
+  show(path.ext("a/b.txt/"))
+  print(path.is_absolute("/a"))
+  print(path.is_absolute("a/b"))
+  print(path.is_absolute(""))
+  path.join() catch err:
+    print("caught: $err")
+  path.join("a", 1) catch err:
+    print("caught: $err")
+  path.dirname(1) catch err:
+    print("caught: $err")
+  path.ext("a", "b") catch err:
+    print("caught: $err")

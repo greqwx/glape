@@ -1,0 +1,39 @@
+[a/b/c]
+[a/b]
+[/b]
+[a/b]
+[b]
+[a]
+[.]
+[a/b/c]
+[..]
+[/]
+[../a]
+[../../b]
+[.]
+[.]
+[c.txt]
+[b]
+[]
+[]
+[a/b]
+[.]
+[/]
+[a]
+[/a]
+[/]
+[.]
+[.txt]
+[.gz]
+[]
+[.]
+[]
+[]
+[.txt]
+true
+false
+false
+caught: path.join expects at least 1 argument, got 0
+caught: path.join expects string for 'part', got int
+caught: path.dirname expects string for 'path', got int
+caught: path.ext expects 1 argument(s), got 2

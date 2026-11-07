@@ -10,9 +10,13 @@
 #ifdef _WIN32
 #define SYS_PATH_SEP "\\"
 #define SYS_EOL "\r\n"
+#define SYS_HAS_DRIVES 1
+#define SYS_IS_SEP(c) ((c) == '/' || (c) == '\\')
 #else
 #define SYS_PATH_SEP "/"
 #define SYS_EOL "\n"
+#define SYS_HAS_DRIVES 0
+#define SYS_IS_SEP(c) ((c) == '/')
 #endif
 
 /* "linux", "macos", "windows" or "unknown" */
