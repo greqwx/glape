@@ -26,6 +26,7 @@ Add `load` at the top of the file to use them.
 | `math` | abs, sqrt, pow, exp, log, log10, sin, cos, tan, asin, acos, atan, atan2, floor, ceil, round, min, max, clamp |
 | `os` | hostname, username, home_dir, temp_dir, cpu_count, and the values name, arch, sep, eol |
 | `path` | join, normalize, basename, dirname, ext, is_absolute |
+| `env` | get, has, set, remove, all |
 
 ## os
 
@@ -67,6 +68,29 @@ print(path.join("src", "..", "libs", "a.c"))   // libs/a.c
 print(path.dirname("/usr/lib/x.so"))           // /usr/lib
 print(path.basename("/usr/lib/x.so"))          // x.so
 print(path.ext("archive.tar.gz"))              // .gz
+```
+
+## env
+
+Reads and changes the environment variables of the running process. Changes are visible to the rest of
+the script and to programs it starts, and are gone when it exits.
+
+- `env.get(name)` is the value as a string, or `nil` when the variable is not set.
+  `env.get(name, default)` returns `default` instead of `nil`.
+- `env.has(name)` is true when the variable is set, even to an empty string.
+- `env.set(name, value)` sets a variable. The value must be a string.
+- `env.remove(name)` removes a variable and returns whether it was set.
+- `env.all()` is a map of every variable.
+
+A name must not be empty or contain `=`, otherwise the call raises an error. On Windows names are not
+case sensitive, so `env.get("path")` finds `Path`.
+
+```
+load env
+
+print(env.get("HOME", "none"))
+env.set("MODE", "debug")
+print(env.has("MODE"))          // true
 ```
 
 ## Example
